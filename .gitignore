@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+.pytest_cache/
+.venv/
+venv/
+.env
+
+# Flutter
+flutter_app/.dart_tool/
+flutter_app/build/
+flutter_app/.flutter-plugins*
+flutter_app/.packages
+flutter_app/pubspec.lock
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
