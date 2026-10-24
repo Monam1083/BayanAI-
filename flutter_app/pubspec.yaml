@@ -12,9 +12,9 @@ dependencies:
   firebase_core: ^3.6.0
   firebase_auth: ^5.3.1
   cloud_firestore: ^5.4.4
-  record: ^5.1.2
-  path_provider: ^2.1.4
-  http: ^1.2.2
+  record: ^7.1.2
+  path_provider: ^2.1.6
+  http: ^1.6.0
   shared_preferences: ^2.3.2
   intl: ^0.19.0
 
