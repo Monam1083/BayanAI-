@@ -226,3 +226,7 @@ async def voice(audio: UploadFile = File(...)):
     if not transcript:
         return ParseResponse(transcript="", commands=[])
     return ParseResponse(transcript=transcript, commands=await extract_commands(transcript))
+
+from fastapi.middleware.cors import CORSMiddleware
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+
