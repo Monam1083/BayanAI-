@@ -20,16 +20,48 @@ class AiClient {
 
   final String baseUrl;
 
+  /// NEW: uploads recorded audio as bytes. Works on web AND mobile because it
+  /// needs no file on disk. [filename] tells the service the format, e.g.
+  /// 'command.webm' on web, 'command.wav' on mobile.
+  Future<AiResult> voiceBytes(
+    List<int> bytes, {
+    String filename = 'command.wav',
+  }) async {
+    try {
+      final request = http.MultipartRequest('POST', Uri.parse('$baseUrl/voice'))
+        ..files.add(http.MultipartFile.fromBytes(
+          'audio',
+          bytes,
+          filename: filename,
+        ));
+      final streamed = await request.send().timeout(
+            const Duration(seconds: 120),
+          );
+      final response = await http.Response.fromStream(streamed);
+      return _handle(response);
+    } on AiException {
+      rethrow;
+    } on SocketException {
+      throw AiException(_unreachable);
+    } on http.ClientException {
+      throw AiException(_unreachable);
+    } on FormatException catch (e) {
+      throw AiException('The AI service address looks wrong: ${e.message}');
+    } on Exception catch (e) {
+      throw AiException(_describe(e));
+    }
+  }
+
   /// Uploads a recording; the service transcribes it and extracts commands.
+  /// (Unchanged. Mobile only, because web has no File.)
   Future<AiResult> voice(File audio) async {
     try {
-      final request =
-          http.MultipartRequest('POST', Uri.parse('$baseUrl/voice'))
-            ..files.add(await http.MultipartFile.fromPath(
-              'audio',
-              audio.path,
-              filename: 'command.wav',
-            ));
+      final request = http.MultipartRequest('POST', Uri.parse('$baseUrl/voice'))
+        ..files.add(await http.MultipartFile.fromPath(
+          'audio',
+          audio.path,
+          filename: 'command.wav',
+        ));
       final streamed = await request.send().timeout(
             const Duration(seconds: 120),
           );
