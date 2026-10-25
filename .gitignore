@@ -3,7 +3,6 @@ __pycache__/
 .pytest_cache/
 .venv/
 venv/
-.env
 
 # Flutter
 flutter_app/.dart_tool/
@@ -14,5 +13,10 @@ flutter_app/pubspec.lock
 
 # Editors / OS
 .idea/
-.vscode/
 .DS_Store
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore
+config.bat
+node_modules
